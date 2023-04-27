@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import "./css/progressBar.css"
 
 interface ICountdown {
@@ -13,22 +13,19 @@ function Countdown({ endOfCountDownEffect, resetCountDown, useresetCountDown }: 
     const [timerClock, setTimerClock] = useState<number>(clock)
 
 
-    useEffect(() => { //reset countdown
-        if (resetCountDown == true) {
+    useEffect(() => {
+
+        if (resetCountDown == true) {//Reset na odabran odgovor
             setTimerClock(clock);
             useresetCountDown(false);
         }
-    }, [resetCountDown])
 
-
-    useEffect(() => {
-
-        if (timerClock < 1) {
+        if (timerClock < 1) {//Reset na istek vremena
             endOfCountDownEffect(0);
             setTimerClock(clock);
         }
 
-
+        //TIMER
         const timer = setTimeout(() => {
             setTimerClock(timerClock - 1);
         }, 1000)
@@ -37,7 +34,7 @@ function Countdown({ endOfCountDownEffect, resetCountDown, useresetCountDown }: 
             clearTimeout(timer)
         }
 
-    }, [timerClock])
+    }, [timerClock, resetCountDown])
 
     return (
         <div className='countdown'>Countdown:{timerClock}
