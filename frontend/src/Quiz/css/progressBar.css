@@ -1,0 +1,22 @@
+.timer {
+    height: 50px;
+    background: green;
+    width: 100%;
+    animation: 5s timer infinite linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes timer {
+    100% {
+        /* width: 0%; */
+        background: red;
+    }
+
+    50% {
+        background: orange;
+    }
+
+    0% {
+        /* width: 100%; */
+    }
+}
