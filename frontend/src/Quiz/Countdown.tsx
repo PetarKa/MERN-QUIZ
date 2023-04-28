@@ -8,22 +8,38 @@ interface ICountdown {
 }
 
 function Countdown({ endOfCountDownEffect, resetCountDown, useresetCountDown }: ICountdown) {
-    const clock: number = 5;
+    const TIME: number = 5;
     const styleWithh: any = { width: "100%" }
-    const [timerClock, setTimerClock] = useState<number>(clock)
+    const [timerClock, setTimerClock] = useState<number>(TIME)
+    const progressBar = useRef<HTMLDivElement>(null);
 
+    function ResetBar() {
+        if (progressBar.current && progressBar.current.lastChild) {
+            progressBar.current?.removeChild(progressBar.current.lastChild)
+        }
+
+        setTimeout(() => {
+            const barDivElement = document.createElement('div')
+            barDivElement.classList.add("timer")
+            progressBar.current?.appendChild(barDivElement)
+        }, 0);
+    }
 
     useEffect(() => {
 
+        console.log()
         if (resetCountDown == true) {//Reset na odabran odgovor
-            setTimerClock(clock);
+            setTimerClock(TIME);
             useresetCountDown(false);
+            ResetBar();
         }
 
         if (timerClock < 1) {//Reset na istek vremena
             endOfCountDownEffect(0);
-            setTimerClock(clock);
+            setTimerClock(TIME);
+            ResetBar();
         }
+
 
         //TIMER
         const timer = setTimeout(() => {
@@ -37,8 +53,8 @@ function Countdown({ endOfCountDownEffect, resetCountDown, useresetCountDown }: 
     }, [timerClock, resetCountDown])
 
     return (
-        <div className='countdown'>Countdown:{timerClock}
-            <div className='timer' style={styleWithh}></div>
+        <div className='countdown' ref={progressBar}>Countdown:{timerClock}
+            <div className='timer' ></div>
         </div>
     )
 }
