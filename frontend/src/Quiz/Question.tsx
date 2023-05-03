@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 interface Quiz {
     quiz: {
@@ -11,9 +11,14 @@ interface Quiz {
 
 function Question({ quiz, nextQuestion }: Quiz) {//prima objekt tipa quiz[0] koji sadrzi naslov tocno pitanje i kriva pitanja
 
+    const buttonStyle: string = 'border-2 border-black my-5 mx-20 self-center p-2 rounded-md hover:bg-amber-200';
+    const buttonStyleCorrect: string = 'border-2 border-black my-5 mx-20 self-center p-2 rounded-md bg-green-500';
+    const buttonStyleWrong: string = 'border-2 border-black my-5 mx-20 self-center p-2 rounded-md bg-red-500';
+
+
     function Answers(currentQuestion: any) {//izvlaci odgovore iz objekta npr Quiz[0] i pretvara ih u jsx
-        var answers = currentQuestion.wrongAnswers.map((answer: string) => <button className='border-2 border-black w-max self-center p-2' value={0} onClick={e => checkAnswer(e)}>{answer}</button>);
-        answers.push(<button className='border-2 border-black w-max self-center p-2' value={1} onClick={e => checkAnswer(e)}>{quiz.correctAnswer}</button>)
+        var answers = currentQuestion.wrongAnswers.map((answer: string) => <button className={buttonStyle} value={0} onClick={e => checkAnswer(e)}>{answer}</button>);
+        answers.push(<button className={buttonStyle} value={1} onClick={e => checkAnswer(e)}>{quiz.correctAnswer}</button>)//izdvojen zato sta mu moramo dodati value 1
         answers = RandomiseAnswers(answers);
         return answers.map((button: any) => button);
     }
@@ -28,15 +33,26 @@ function Question({ quiz, nextQuestion }: Quiz) {//prima objekt tipa quiz[0] koj
     }
 
     function checkAnswer(e: any) {
-        console.log(e.target.style);
+        if (parseInt(e.target.value) == 1) {
+            e.target.className = buttonStyleCorrect;
+        } else {
+            e.target.className = buttonStyleWrong;
+        }
+
         nextQuestion(parseInt(e.target.value));
+
+        setTimeout(() => {
+            e.target.className = buttonStyle;
+        }, 1000);
+
+
     }
 
     return (
-        <div className="col-start-2 flex flex-col justify-center px-20">
+        <div className="flex flex-col justify-center w-full pb">
 
             <h1 className="self-center justify-center">{quiz.question}</h1>
-            <div className='flex flex-col justify-center space-y-4 pt-10'>{Answers(quiz)}</div>
+            <div className='grid grid-cols-2 grid-rows-2 gap-4 px-auto my-5'>{Answers(quiz)}</div>
         </div>
     )
 }

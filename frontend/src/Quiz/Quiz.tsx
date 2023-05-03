@@ -20,7 +20,6 @@ function Quiz() {
 
     function nextQuestion(point: number) {
         setScore(score + point);
-        console.log(resetCountdown)
         setresetCountdown(true);
 
         if (questionIndex < Quiz.length - 1) {
@@ -30,7 +29,7 @@ function Quiz() {
         }
     }
 
-    async function fetchQuiz() {
+    async function fetchQuiz() {//dobavlja kviz
         let response = await fetch(`https://the-trivia-api.com/api/questions?categories=${location.state}&limit=5&difficulty=easy`)
         if (response.status === 200) {
             let data = await response.json()
@@ -60,9 +59,9 @@ function Quiz() {
     function Render() {
         if (showResult === false) {
             return (
-                <div className='grid grid-cols-3'>
-                    <Question quiz={Quiz[questionIndex]} nextQuestion={nextQuestion} />
+                <div className='flex flex-col justify-center mx-auto mt-20 w-1/2 h-full border-solid border-2 rounded-lg bg-sky-500'>
                     <Countdown endOfCountDownEffect={nextQuestion} resetCountDown={resetCountdown} useresetCountDown={setresetCountdown} />
+                    <Question quiz={Quiz[questionIndex]} nextQuestion={nextQuestion} />
                 </div>
             )
         } else {

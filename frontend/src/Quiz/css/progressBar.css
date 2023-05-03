@@ -1,9 +1,11 @@
 .timer {
-    height: 50px;
-    background: green;
+    height: 10px;
+    background: #2e375b;
     width: 100%;
-    animation: 5s timer infinite linear;
+    border-radius: 10px 10px 10px 0px;
+    animation: 10s timer linear;
     animation-fill-mode: forwards;
+    padding-bottom: 5px;
 }
 
 @keyframes timer {
