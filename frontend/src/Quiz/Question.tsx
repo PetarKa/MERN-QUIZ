@@ -17,6 +17,7 @@ function Question({ quiz, nextQuestion }: Quiz) {//prima objekt tipa quiz[0] koj
 
 
     function Answers(currentQuestion: any) {//izvlaci odgovore iz objekta npr Quiz[0] i pretvara ih u jsx
+        console.log("Answers function")
         var answers = currentQuestion.wrongAnswers.map((answer: string) => <button className={buttonStyle} value={0} onClick={e => checkAnswer(e)}>{answer}</button>);
         answers.push(<button className={buttonStyle} value={1} onClick={e => checkAnswer(e)}>{quiz.correctAnswer}</button>)//izdvojen zato sta mu moramo dodati value 1
         answers = RandomiseAnswers(answers);
@@ -33,10 +34,12 @@ function Question({ quiz, nextQuestion }: Quiz) {//prima objekt tipa quiz[0] koj
     }
 
     function checkAnswer(e: any) {
-        if (parseInt(e.target.value) == 1) {
-            e.target.className = buttonStyleCorrect;
-        } else {
+        if (parseInt(e.target.value) == 0) {
             e.target.className = buttonStyleWrong;
+
+        } else {
+            e.target.className = buttonStyleCorrect;
+
         }
 
         nextQuestion(parseInt(e.target.value));

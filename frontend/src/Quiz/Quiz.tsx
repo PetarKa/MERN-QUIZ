@@ -19,14 +19,18 @@ function Quiz() {
     }, [])
 
     function nextQuestion(point: number) {
-        setScore(score + point);
-        setresetCountdown(true);
 
-        if (questionIndex < Quiz.length - 1) {
-            setquestionIndex(questionIndex + 1);
-        } else {
-            setShowResult(true);
-        }
+        setTimeout(() => {
+            setScore(score + point);
+            setresetCountdown(true);
+
+            if (questionIndex < Quiz.length - 1) {
+                setquestionIndex(questionIndex + 1);
+            } else {
+                setShowResult(true);
+            }
+        }, 1000);
+
     }
 
     async function fetchQuiz() {//dobavlja kviz
@@ -68,12 +72,17 @@ function Quiz() {
             console.log("END OF QUIZ")
             return <EndOfQuiz score={score} />
         }
+        A();
     }
 
 
     return (
         <>{Loading ? <h1 className='relative center'>LOADING</h1> : Render()}</>
     )
+}
+
+function A() {
+
 }
 
 export default Quiz
