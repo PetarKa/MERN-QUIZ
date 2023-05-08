@@ -69,7 +69,6 @@ function Quiz() {
                 </div>
             )
         } else {
-            console.log("END OF QUIZ")
             return <EndOfQuiz score={score} />
         }
 
