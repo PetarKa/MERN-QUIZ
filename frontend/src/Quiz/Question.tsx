@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 interface Quiz {
     quiz: {
@@ -15,6 +15,8 @@ function Question({ quiz, nextQuestion }: Quiz) {//prima objekt tipa quiz[0] koj
     const buttonStyleCorrect: string = 'border-2 border-black my-5 mx-20 self-center p-2 rounded-md bg-green-500';
     const buttonStyleWrong: string = 'border-2 border-black my-5 mx-20 self-center p-2 rounded-md bg-red-500';
 
+
+    const memoizedAnswers = useMemo(() => Answers(quiz), [quiz]);
 
     function Answers(currentQuestion: any) {//izvlaci odgovore iz objekta npr Quiz[0] i pretvara ih u jsx
         console.log("Answers function")
@@ -55,7 +57,7 @@ function Question({ quiz, nextQuestion }: Quiz) {//prima objekt tipa quiz[0] koj
         <div className="flex flex-col justify-center w-full pb">
 
             <h1 className="self-center justify-center">{quiz.question}</h1>
-            <div className='grid grid-cols-2 grid-rows-2 gap-4 px-auto my-5'>{Answers(quiz)}</div>
+            <div className='grid grid-cols-2 grid-rows-2 gap-4 px-auto my-5'>{memoizedAnswers}</div>
         </div>
     )
 }

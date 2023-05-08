@@ -31,25 +31,30 @@ function Countdown({ endOfCountDownEffect, resetCountDown, useresetCountDown }: 
     useEffect(() => {
 
         if (resetCountDown == true) {//Reset na odabran odgovor
-            setTimerClock(TIME);
-            useresetCountDown(false);//nakon sta provjerimo da je korisnik kliknuo botun ponocu varijable resetCountDonw vracamo je na pocetnu vrijednost
-            ResetBar();
+            setTimeout(() => {
+                setTimerClock(TIME);
+                useresetCountDown(false);//nakon sta provjerimo da je korisnik kliknuo botun ponocu varijable resetCountDonw vracamo je na pocetnu vrijednost
+                ResetBar();
+            }, 850);
+
         }
 
-        if (timerClock == 0) {//Zove funckioju u Quiz koja promijeni vrijednost resetCountDown u true
+        if (timerClock < 1 && resetCountDown == false) {//Zove funckioju u Quiz koja promijeni vrijednost resetCountDown u true
             endOfCountDownEffect(0);
         }
 
+        if (resetCountDown == false) {//ako je resetcountdown true timer ce biti pauziran
+            const timer = setTimeout(() => {
+                setTimerClock(timerClock - 1);
+            }, 1000)
 
-        const timer = setTimeout(() => {
-            setTimerClock(timerClock - 1);
-        }, 1000)
 
-
-        console.log("TIME: " + timerClock)
-        return () => { // this should work flawlessly besides some milliseconds lost here and there 
-            clearTimeout(timer)
+            console.log("TIME: " + timerClock)
+            return () => { // this should work flawlessly besides some milliseconds lost here and there 
+                clearTimeout(timer)
+            }
         }
+
 
 
     }, [timerClock, resetCountDown])
