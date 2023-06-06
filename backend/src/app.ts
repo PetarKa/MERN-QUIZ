@@ -30,7 +30,7 @@ app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
 })
 
-app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+app.use((error: unknown, req: Request, res: Response) => {
     console.log(error);
     let errorMessage = "An unknown error occured";
     let statusCode = 500;
