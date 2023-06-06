@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import createHttpError, { isHttpError } from "http-errors";
 import userRoute from "./routes/usersRoute";
 import session from "express-session";

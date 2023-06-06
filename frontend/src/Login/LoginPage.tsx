@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+
 import { useNavigate } from "react-router-dom";
-import Header from '../components/Header';
-import logo from './logo.jpeg'
+
 
 
 interface ILogin {
@@ -27,11 +26,12 @@ function LoginPage({ isLogin, setisLogin }: ILogin) {
 
             <form className='flex flex-col basis-1/2 self-center justify-start mt-40' onSubmit={() => navigate("/home")}>
 
-                {email}
+
                 <label className='pt-7'>
                     Username:<br />
                     <input className='border-2 m-1 ml-0' type='text' name='name' />
                 </label>
+                {email}
                 <label className='pt-7'>
                     Password:<br />
                     <input className='border-2 m-1 ml-0' type='text' name='name' />
