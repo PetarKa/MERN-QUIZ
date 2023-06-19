@@ -1,26 +1,50 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Category from './Category/Category';
-import Quiz from './Quiz/Quiz';
-import LoginPage from './Login/LoginPage';
-import Home from './Home/Home';
-import Profile from './Profile/Profile';
+import { useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Header from './components/Header';
-import { useState } from "react";
+import { User } from "./models/user";
+import * as networkAPI from "./network/apis";
+import Category from './pages/Category/Category';
+import Home from './pages/Home/Home';
+import LoginPage from './pages/Login/LoginPage';
+import Profile from './pages/Profile/Profile';
+import ProtectedRoute from "./pages/ProtectedRoute";
+import Quiz from './pages/Quiz/Quiz';
 
 function App() {
 
-    const [isLogin, setIsLogin] = useState(false);
+    const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+
+
+    useEffect(() => {//dodat isLoading?<Loading>: Route
+        async function fetchLoggedInUser() {
+            try {
+                const user = await networkAPI.getLoggedInUser();
+                setLoggedInUser(user);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchLoggedInUser();
+    }, []);
+
+
+    console.log("App.tsx")
+    console.log(loggedInUser)
+
 
     return (
         <Router >
-            <Header isLogin={isLogin} setisLogin={setIsLogin} />
+            <Header user={loggedInUser} setLoggedInUser={setLoggedInUser} />
             <Routes >
-                <Route path="/" element={<LoginPage isLogin={isLogin} setisLogin={setIsLogin} />} />
-                <Route path="/Category" element={<Category />} />
-                <Route path="/quiz" element={<Quiz />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/profilename" element={<Profile />} />
+                <Route path="/login" element={<LoginPage loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
+                <Route element={<ProtectedRoute loggedInUser={loggedInUser} />}>
 
+                    <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/quiz" element={<Quiz />} />
+                    <Route path="/category" element={<Category />} />
+                    <Route path="/profilename" element={<Profile />} />
+                </Route>
             </Routes >
         </Router>
     )

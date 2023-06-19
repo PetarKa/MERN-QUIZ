@@ -9,7 +9,7 @@ export async function getLoggedInUser(): Promise<User> {
 export interface SignUpCredentials {
     username: string,
     email: string,
-    passwrod: string
+    password: string
 }
 
 export async function signUp(creditendials: SignUpCredentials): Promise<User> {
@@ -25,7 +25,7 @@ export async function signUp(creditendials: SignUpCredentials): Promise<User> {
 
 export interface LoginCredentials {
     username: string,
-    email: string,
+    password: string,
 }
 
 export async function login(creditendials: LoginCredentials): Promise<User> {
