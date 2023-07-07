@@ -2,6 +2,8 @@ import "dotenv/config";
 import express, { Request, Response } from "express";
 import createHttpError, { isHttpError } from "http-errors";
 import userRoute from "./routes/usersRoute";
+import dataRoute from "./routes/dataRoute"
+import { requiresAuth } from "./middleware/auth";
 import session from "express-session";
 import env from "./util/validateEnv"
 import MongoStore from "connect-mongo";
@@ -15,7 +17,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 5 * 60 * 1000,//5 minuti
+        maxAge: 15 * 60 * 1000,//15 minuti
     },
     rolling: true,
     store: MongoStore.create({
@@ -25,6 +27,7 @@ app.use(session({
 
 app.use("/api/users", userRoute)
 
+app.use("/api/userdata", requiresAuth, dataRoute)
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
