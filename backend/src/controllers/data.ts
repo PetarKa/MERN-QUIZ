@@ -55,7 +55,7 @@ export const getData: RequestHandler = async (req, res, next) => {
 
     try {
         const gData = await UserDataModel.find().populate('userId', 'username');//agregacija
-        const data = await UserDataModel.findOne({ userId: authenticatedUserId }).lean();// exec zaminit sa lean i onda maknit to json
+        const data = await UserDataModel.findOne({ userId: authenticatedUserId }).lean();
         if (!data) {
             throw createHttpError(404, "User data not found");
         }
@@ -80,11 +80,11 @@ export const updateData: RequestHandler<unknown, unknown, UpdateBody, unknown> =
 
     try {
 
-        //assertIsDefined(authenticatedUserId);
+        assertIsDefined(authenticatedUserId);
 
 
         await CategoryModel.findOneAndUpdate({}, { $inc: { [updatedField]: 1 } }).exec()//updatea global_Data
-        console.log("funkcija")
+
         const data = await UserDataModel.findOne({ userId: authenticatedUserId }).exec();
         if (!data) {
             throw createHttpError(404, "User data not found");
