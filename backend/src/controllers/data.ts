@@ -54,13 +54,16 @@ export const getData: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
 
     try {
-        const gData = await UserDataModel.find().populate('userId', 'username');//agregacija
-        const data = await UserDataModel.findOne({ userId: authenticatedUserId }).lean();
-        if (!data) {
+        const usersData = await UserDataModel.find().populate('userId', 'username');
+        const userData = await UserDataModel.findOne({ userId: authenticatedUserId }).lean();
+        const globalData = await CategoryModel.find().lean().select('-_id -__v');
+
+        if (!userData) {
             throw createHttpError(404, "User data not found");
         }
-
-        const resData = formatData(data, gData);
+        console.log(usersData)
+        console.log(globalData)
+        const resData = formatData(userData, usersData, globalData);
         res.status(200).send(resData);
     } catch (error) {
         next(error);
@@ -106,14 +109,15 @@ export const updateData: RequestHandler<unknown, unknown, UpdateBody, unknown> =
     }
 }
 
-function formatData(data: any, gData: any) {
+//definirat inteface/type za podatke
+function formatData(userData: any, users_Data: any, global_Data: any) {
 
     let bCategory: string | null = null;
     let bNumber = -Infinity;
 
-    for (const category in data.bestCategory) {//best category sadrzi zbroj bodova po kategoriji
-        const bValue: number = data.bestCategory[category];
-        const fValue: number = data.favouriteCategory[category];
+    for (const category in userData.bestCategory) {//best category sadrzi zbroj bodova po kategoriji
+        const bValue: number = userData.bestCategory[category];
+        const fValue: number = userData.favouriteCategory[category];
 
         const categoryValue: number = fValue / bValue; //broj odigrane kategorije/broj bodova te kategorije
 
@@ -127,8 +131,8 @@ function formatData(data: any, gData: any) {
     let fCategory: string | null = null;
     let fNumber = -Infinity;
 
-    for (const category in data.favouriteCategory) {
-        const categoryValue: number = data.favouriteCategory[category]; // Type assertion
+    for (const category in userData.favouriteCategory) {
+        const categoryValue: number = userData.favouriteCategory[category]; // Type assertion
 
         if (categoryValue > fNumber) {
             fNumber = categoryValue;
@@ -143,12 +147,16 @@ function formatData(data: any, gData: any) {
     if (fNumber == 0) {
         fCategory = "No games played";
     }
-    data.bestCategory = bCategory;
-    data.favouriteCategory = fCategory;
 
-    data.userId = data.userId.username;
+    const newData = {
+        gamesPlayed: userData.gamesPlayed,
+        bestCategory: bCategory,
+        favouriteCategory: fCategory,
+        averageScore: userData.averageScore,
+        totalScore: userData.totalScore,
+    }
 
-    const globalData = gData.map((el: any) => {
+    const usersData = users_Data.map((el: any) => {
         const obj = {
             username: el.userId.username,
             score: el.totalScore
@@ -156,6 +164,8 @@ function formatData(data: any, gData: any) {
         return obj
     }).sort((a: any, b: any) => b.score - a.score)
 
-    console.log(globalData)
-    return [data, globalData]
+    //console.log(usersData)
+
+    const returnVariable = { userData: newData, topCategories: global_Data, usersScores: usersData }
+    return returnVariable
 }

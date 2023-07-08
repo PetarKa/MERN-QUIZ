@@ -44,3 +44,11 @@ export async function logout() {
         method: "POST"
     })
 }
+
+export async function getData() {
+    const response = await fetch("api/userdata", {
+        method: "GET"
+    })
+
+    return response.json();
+}

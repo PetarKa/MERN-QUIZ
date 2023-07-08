@@ -7,8 +7,6 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ loggedInUser }: ProtectedRouteProps) {
 
-    console.log("Protected route")
-    console.log(loggedInUser)
     return (
         loggedInUser ? <Outlet /> : <Navigate to="/login" />
     )
