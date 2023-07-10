@@ -1,12 +1,26 @@
 import { useNavigate } from 'react-router-dom';
+import * as networkAPI from "../../network/apis";
 
 interface IScore {
     score: number;
+    category: string;
 }
 
-function EndOfQuiz({ score }: IScore) {
+function EndOfQuiz({ score, category }: IScore) {
 
     let navigate = useNavigate();
+
+    (async function () {
+        try {
+            const data = {
+                points: score,
+                category: category,
+            }
+            await networkAPI.sendData(data)
+        } catch (error) {
+
+        }
+    })();
 
     return (
         <>

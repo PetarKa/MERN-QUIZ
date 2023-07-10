@@ -47,8 +47,8 @@ function Category() {
 
 
 
-    function renderQuiz(key: any) {
-        navigate("/quiz", { state: key })
+    function renderQuiz(key: string, name: string) {
+        navigate("/quiz", { state: { key, name } })
     }
 
     return (
@@ -59,7 +59,7 @@ function Category() {
                 <h2 className="self-center">Choose category</h2>
                 <div className="grid grid-cols-5 gap-4">
                     {Object.keys(Categories).map(((name: any) => {
-                        return (<button onClick={(event) => renderQuiz(Categories[name])} key={Categories[name]} className='border-2 w-20 self-center mt-5 rounded-lg h-20 w-24 bg-sky-500 border-sky-900 transition duration-500 hover:scale-125'>{name}</button>)
+                        return (<button onClick={(event) => renderQuiz(Categories[name], name)} key={Categories[name]} className='border-2 w-20 self-center mt-5 rounded-lg h-20 w-24 bg-sky-500 border-sky-900 transition duration-500 hover:scale-125'>{name}</button>)
                     }))}
                 </div>
 

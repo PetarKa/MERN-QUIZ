@@ -164,7 +164,6 @@ function formatData(userData: any, users_Data: any, global_Data: any) {
         return obj
     }).sort((a: any, b: any) => b.score - a.score)
 
-    //console.log(usersData)
 
     const returnVariable = { userData: newData, topCategories: global_Data, usersScores: usersData }
     return returnVariable

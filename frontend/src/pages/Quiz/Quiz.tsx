@@ -33,8 +33,13 @@ function Quiz() {
 
     }
 
+    const { key, name } = location.state as {
+        key: string;
+        name: string;
+    };
+
     async function fetchQuiz() {//dobavlja kviz
-        let response = await fetch(`https://the-trivia-api.com/api/questions?categories=${location.state}&limit=5&difficulty=easy`)
+        let response = await fetch(`https://the-trivia-api.com/api/questions?categories=${key}&limit=5&difficulty=easy`)
         if (response.status === 200) {
             let data = await response.json()
             setQuiz(SortAndCleanQuiz(data));
@@ -69,7 +74,7 @@ function Quiz() {
                 </div>
             )
         } else {
-            return <EndOfQuiz score={score} />
+            return <EndOfQuiz score={score} category={name} />
         }
 
     }

@@ -1,4 +1,5 @@
 import { User } from "../models/user";
+import { IDATA } from "../models/data";
 
 export async function getLoggedInUser(): Promise<User> {
     const response = await fetch("/api/users", { method: "GET" })
@@ -45,9 +46,26 @@ export async function logout() {
     })
 }
 
-export async function getData() {
+export async function getData(): Promise<IDATA> {
     const response = await fetch("api/userdata", {
         method: "GET"
+    })
+
+    return response.json();
+}
+
+export interface UpdateData {
+    category: string,
+    points: number
+}
+
+export async function sendData(data: UpdateData) {
+    const response = await fetch("api/userdata", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
     })
 
     return response.json();
