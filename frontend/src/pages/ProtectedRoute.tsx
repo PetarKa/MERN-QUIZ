@@ -7,9 +7,15 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ loggedInUser }: ProtectedRouteProps) {
 
-    return (
-        loggedInUser ? <Outlet /> : <Navigate to="/login" />
-    )
+    if (!loggedInUser) {
+        return <Navigate to="/login" />
+    }
+
+    return <Outlet />
+
+    // return (
+    //     loggedInUser ? <Outlet /> : <Navigate to="/login" />
+    // )
 }
 
 export default ProtectedRoute
