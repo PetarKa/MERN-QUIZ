@@ -20,7 +20,6 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
 }
 
 export async function getLoggedInUser(): Promise<User> {
-    // const response = await fetch("/api/users", { method: "GET" })
     const response = await fetchData("/api/users", { method: "GET" })
 
     return response.json();
@@ -33,7 +32,7 @@ export interface SignUpCredentials {
 }
 
 export async function signUp(creditendials: SignUpCredentials): Promise<User> {
-    const response = await fetch("/api/users/signup", {
+    const response = await fetchData("/api/users/signup", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -61,13 +60,13 @@ export async function login(creditendials: LoginCredentials): Promise<User> {
 }
 
 export async function logout() {
-    await fetch("api/users/logout", {
+    await fetchData("api/users/logout", {
         method: "POST"
     })
 }
 
 export async function getData(): Promise<IDATA> {
-    const response = await fetch("api/userdata", {
+    const response = await fetchData("api/userdata", {
         method: "GET"
     })
 
@@ -80,7 +79,7 @@ export interface UpdateData {
 }
 
 export async function sendData(data: UpdateData) {
-    const response = await fetch("api/userdata", {
+    const response = await fetchData("api/userdata", {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

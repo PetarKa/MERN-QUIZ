@@ -39,6 +39,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
         const existingUsername = await UserModel.findOne({ username: username }).exec();
 
         if (existingUsername) {
+            console.log("Exissting username")
             throw createHttpError(409, "Username already taken. Please choose a different one or log in instead");
         }
 
@@ -61,6 +62,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
         next();
         //res.status(201).json(newUser);
     } catch (error) {
+        console.log("ERROR")
         next(error);
     }
 };

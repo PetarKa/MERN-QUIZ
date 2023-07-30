@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { IDATA } from "../../models/data";
 import * as networkAPI from "../../network/apis";
+import { UnauthorizedError } from '../../errors/http_errors';
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
+    let navigate = useNavigate();
 
-    const [DATA, setDATA] = useState<IDATA | null>(null)//moran decontructat ovo
+
+    const [DATA, setDATA] = useState<IDATA | null>(null)
     const [isLoading, setisLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -14,6 +18,9 @@ function Home() {
                 const data = await networkAPI.getData();
                 setDATA(data)
             } catch (error) {
+                if (error instanceof UnauthorizedError) {
+                    navigate("/login")
+                }
                 console.error(error);
             } finally {
                 setisLoading(false);
@@ -61,13 +68,14 @@ function Home() {
 
                 <div className="flex-col mt-16 rounded-lg bg-sky-500">
                     <h1 className=" pl-5 pb-10">Leaderboard</h1>
-
-                    {usersScores.map(el => (
-                        <div key={el.username} className="flex justify-between my-3">
-                            <div className="pl-10">{el.username}</div>
-                            <div className="pr-10">{el.score}</div>
-                        </div>)
-                    )}
+                    <div className="overflow-y-auto">
+                        {usersScores.map(el => (
+                            <div key={el.username} className="flex justify-between my-3">
+                                <div className="pl-10">{el.username}</div>
+                                <div className="pr-10">{el.score}</div>
+                            </div>)
+                        )}
+                    </div>
 
                 </div>
 

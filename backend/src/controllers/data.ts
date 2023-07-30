@@ -9,6 +9,8 @@ export const createUserData: RequestHandler<unknown, unknown, unknown, unknown> 
 
     const authenticatedUserId = req.session.userId;
 
+    console.log("DAta")
+
     try {
         const newUserData = await UserDataModel.create({
             userId: authenticatedUserId,
