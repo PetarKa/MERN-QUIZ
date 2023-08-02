@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
 import Question from './Question';
 import EndOfQuiz from './EndOfQuiz';
 import Countdown from './Countdown';
 
-function Quiz() {
-    const location = useLocation();//u ovaj hook mozemo staviti state koji je povezan sa url-om stranice
+interface IQuiz {
+    url: string,
+    name: string
+}
+
+function Quiz({ url, name }: IQuiz) {
 
     const [Quiz, setQuiz] = useState<any | null>([{}])
     const [Loading, setLoading] = useState(true)
@@ -29,22 +32,16 @@ function Quiz() {
             } else {
                 setShowResult(true);
             }
-        }, 850);
+        }, 900);
 
     }
 
-    const { key, name } = location.state as {
-        key: string;
-        name: string;
-    };
-
     async function fetchQuiz() {//dobavlja kviz
-        let response = await fetch(`https://the-trivia-api.com/api/questions?categories=${key}&limit=5&difficulty=easy`)
+        let response = await fetch(`https://the-trivia-api.com/api/questions?categories=${url}&limit=5&difficulty=easy`)
         if (response.status === 200) {
             let data = await response.json()
             setQuiz(SortAndCleanQuiz(data));
             setLoading(false)
-            console.log(Quiz)
         } else {
             alert(response.status)
         }
@@ -60,7 +57,6 @@ function Quiz() {
             }
             quiz.push(question);
         }
-        console.log(quiz);
         return quiz;
     }
 
@@ -76,7 +72,6 @@ function Quiz() {
         } else {
             return <EndOfQuiz score={score} category={name} />
         }
-
     }
 
 

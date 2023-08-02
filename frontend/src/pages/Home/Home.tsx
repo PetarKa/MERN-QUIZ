@@ -8,9 +8,7 @@ import { useNavigate } from "react-router-dom";
 function Home() {
     let navigate = useNavigate();
 
-
     const [DATA, setDATA] = useState<IDATA | null>(null)
-    const [isLoading, setisLoading] = useState<boolean>(true)
 
     useEffect(() => {
         async function getData() {
@@ -22,8 +20,6 @@ function Home() {
                     navigate("/login")
                 }
                 console.error(error);
-            } finally {
-                setisLoading(false);
             }
         }
         getData();
@@ -31,19 +27,13 @@ function Home() {
     }, [])
 
     if (!DATA) {
-        return (<div>LOADING</div>)
+        return (<div></div>)
     }
-
-    console.log(DATA)
-
-
 
     const { userData, topCategories, usersScores } = DATA || {};
 
-
-
     return (<>
-        {isLoading ? <div>LOADING</div> :
+        {
             <div className="flex flex-col lg:max-w-screen-lg md:max-w-screen-md mx-auto text-xl ">
 
                 <div className="flex space-x-4">
@@ -68,7 +58,7 @@ function Home() {
 
                 <div className="flex-col mt-16 rounded-lg bg-sky-500">
                     <h1 className=" pl-5 pb-10">Leaderboard</h1>
-                    <div className="overflow-y-auto">
+                    <div className="overflow-y-auto h-48">
                         {usersScores.map(el => (
                             <div key={el.username} className="flex justify-between my-3">
                                 <div className="pl-10">{el.username}</div>

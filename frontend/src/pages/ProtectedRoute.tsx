@@ -7,8 +7,6 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ loggedInUser }: ProtectedRouteProps) {
 
-    console.log(loggedInUser)
-
     if (!loggedInUser) {
         alert("Not Authorized.\nPlease log in.")
         return <Navigate to="/login" />

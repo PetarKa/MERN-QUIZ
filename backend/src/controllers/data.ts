@@ -9,8 +9,6 @@ export const createUserData: RequestHandler<unknown, unknown, unknown, unknown> 
 
     const authenticatedUserId = req.session.userId;
 
-    console.log("DAta")
-
     try {
         const newUserData = await UserDataModel.create({
             userId: authenticatedUserId,
@@ -63,8 +61,7 @@ export const getData: RequestHandler = async (req, res, next) => {
         if (!userData) {
             throw createHttpError(404, "User data not found");
         }
-        console.log(usersData)
-        console.log(globalData)
+
         const resData = formatData(userData, usersData, globalData);
         res.status(200).send(resData);
     } catch (error) {

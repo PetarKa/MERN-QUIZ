@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import logo from '../logo.webp'
-
+import Quiz from "../Quiz/Quiz";
 
 interface ICategories {
     [key: string]: string;
@@ -10,28 +7,31 @@ interface ICategories {
 
 
 function Category() {
-    let navigate = useNavigate();
+    const [showQuiz, setShowQuiz] = useState(false);
+    const [quizState, setQuizState] = useState({ url: '', name: '' });
+
     useEffect(() => {
+        async function fetchCategories() {
+            let response = await fetch("https://the-trivia-api.com/api/categories")
+            if (response.status === 200) {
+                let data = await response.json();
+
+                let values = SortAndCleanArray(Object.values(data))
+                let keys = Object.keys(data);
+                let category: ICategories = {}
+                keys.forEach((key, i) => category[key] = values[i])
+
+                setCategories(category)
+            } else {
+                alert("Can't get categories\nError:" + response.status)
+            }
+        }
+
         fetchCategories();
     }, [])
 
     const [Categories, setCategories] = useState<any | null>([]);
-    async function fetchCategories() {
-        let response = await fetch("https://the-trivia-api.com/api/categories")
-        if (response.status === 200) {
-            let data = await response.json();
 
-            let values = SortAndCleanArray(Object.values(data))
-            let keys = Object.keys(data);
-            let category: ICategories = {}
-            console.log(category)
-            keys.forEach((key, i) => category[key] = values[i])
-
-            setCategories(category)
-        } else {
-            alert("Can't get categories\nError:" + response.status)
-        }
-    }
 
     function SortAndCleanArray(arr: any) {
         let categoryArray = [];
@@ -46,14 +46,16 @@ function Category() {
     }
 
 
-
     function renderQuiz(key: string, name: string) {
-        navigate("/quiz", { state: { key, name } })
+        setQuizState({
+            url: key,
+            name: name
+        })
+        setShowQuiz(true)
     }
 
-    return (
-        <div className="flex flex-col mt-16">
-
+    return (<>
+        {showQuiz ? <Quiz url={quizState.url} name={quizState.name} /> : <div className="flex flex-col mt-16">
 
             <div className='flex flex-col self-center'>
                 <h2 className="self-center">Choose category</h2>
@@ -65,8 +67,9 @@ function Category() {
 
             </div>
 
+        </div>}
+    </>
 
-        </div>
     )
 }
 

@@ -20,7 +20,6 @@ function LoginForm({ setLoggedInUser }: ILogin) {
         try {
 
             const result = await networkAPI.login(credidentials);
-            console.log(result)
             setLoggedInUser(result)
             navigate("/home")
         } catch (error) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import logo from '../../logo.webp';
 import { User } from '../../models/user';
 import LoginForm from './LoginForm';
@@ -12,12 +12,6 @@ interface ILogin {
 
 function LoginPage({ loggedInUser, setLoggedInUser }: ILogin) {
     const [isLogin, setIsLogin] = useState(true);
-
-
-
-    useEffect(() => {
-        console.log(isLogin)
-    }, [isLogin])
 
     return (
         <div>

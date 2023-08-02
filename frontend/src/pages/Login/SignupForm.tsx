@@ -16,12 +16,10 @@ function SignupForm({ setIsLogin }: ISignupForm) {
     async function onSubmit(credidentials: SignUpCredentials) {
 
         try {
-            const result = await networkAPI.signUp(credidentials);
-            console.log(result)
+            await networkAPI.signUp(credidentials);
             setIsLogin(true);
             alert("You have succesfully Signed up! \nPlease Log in.")
 
-            console.log(credidentials)
         } catch (error) {
             if (error instanceof ConflictError) {
                 setErrorText(error.message);
