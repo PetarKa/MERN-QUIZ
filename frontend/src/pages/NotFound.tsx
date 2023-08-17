@@ -1,7 +1,7 @@
 
 function NotFound() {
     return (
-        <div>NotFound</div>
+        <div className="relative inset-x-1/2 top-80">Page not found.</div>
     )
 }
 

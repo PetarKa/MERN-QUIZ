@@ -3,9 +3,13 @@ import { IDATA } from "../../models/data";
 import * as networkAPI from "../../network/apis";
 import { UnauthorizedError } from '../../errors/http_errors';
 import { useNavigate } from "react-router-dom";
+import { User } from "../../models/user"
 
+interface IUser {
+    loggedInUser: User | null
+}
 
-function Home() {
+function Home({ loggedInUser }: IUser) {
     let navigate = useNavigate();
 
     const [DATA, setDATA] = useState<IDATA | null>(null)
@@ -37,13 +41,14 @@ function Home() {
             <div className="flex flex-col lg:max-w-screen-lg md:max-w-screen-md mx-auto text-xl ">
 
                 <div className="flex space-x-4">
-                    <div className="flex flex-col rounded-lg bg-sky-500 w-2/5 pl-4 pt-4 h-auto">
-                        <h1 className="mb-10">Your Stats</h1>
+                    <div className="flex flex-col rounded-lg bg-sky-500 w-2/5 pl-4 pr-4 pt-4 h-auto">
+                        <h1 className="mb-10">Your Stats {loggedInUser?.username}</h1>
                         <div className="flex flex-col flex-grow justify-between md:py-5">
-                            <p className="pb-2">Games played: {userData.gamesPlayed}</p>
-                            <p className="pb-2">Best category: {userData.bestCategory}</p>
-                            <p className="pb-2">Favourite category: {userData.favouriteCategory}</p>
-                            <p className="pb-2">Average score per quiz: {userData.averageScore}</p>
+                            <p className="pb-2 flex justify-between"><span>Score:</span> <span>{userData.totalScore}</span></p>
+                            <p className="pb-2 flex justify-between"><span>Games played:</span> <span>{userData.gamesPlayed}</span></p>
+                            <p className="pb-2 flex justify-between"><span>Best category:</span> <span>{userData.bestCategory}</span></p>
+                            <p className="pb-2 flex justify-between"><span>Favourite category:</span> <span>{userData.favouriteCategory}</span></p>
+                            <p className="pb-2 flex justify-between"><span>Average score per quiz:</span> <span>{userData.averageScore}</span></p>
                         </div>
                     </div>
 
@@ -66,9 +71,7 @@ function Home() {
                             </div>)
                         )}
                     </div>
-
                 </div>
-
             </div>
         }
     </>

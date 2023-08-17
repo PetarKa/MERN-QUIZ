@@ -1,15 +1,18 @@
-import { Link } from 'react-router-dom';
-import { User } from '../models/user';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import logo from '../logo.webp';
+import { User } from "../models/user";
 import * as networkAPI from "../network/apis";
-import { useNavigate } from 'react-router';
 
-interface ILoggedInNavbar {
+interface IHeader {
+    user: User | null,
     setLoggedInUser: (value: User | null) => void;
 }
 
-function LoggedInNavbar({ setLoggedInUser }: ILoggedInNavbar) {
+
+function Header({ user, setLoggedInUser }: IHeader) {
     let navigate = useNavigate();
 
+    const location = useLocation();
 
     async function Logout() {
         try {
@@ -21,15 +24,20 @@ function LoggedInNavbar({ setLoggedInUser }: ILoggedInNavbar) {
         }
     }
 
-
-    return (
-        <><nav className='pt-5'>
-            <Link to="/home" className='px-10 '>Home</Link>
-            <Link to="/category" className='px-10 '>Quiz</Link>
-        </nav>
-            <button className='p-6' onClick={Logout}>Logout</button>
-        </>
-    )
+    if (user && location.pathname !== "/login") {
+        return (
+            <nav className='flex flex-row justify-between '>
+                <img className="w-16 h-16" src={logo} alt='logo'></img>
+                <nav className='pt-5'>
+                    <Link to="/home" className='px-10 '>Home</Link>
+                    <Link to="/category" className='px-10 '>Quiz</Link>
+                </nav>
+                <button className='p-6' onClick={Logout}>Logout</button>
+            </nav>
+        )
+    } else {
+        return (<></>)
+    }
 }
 
-export default LoggedInNavbar
+export default Header

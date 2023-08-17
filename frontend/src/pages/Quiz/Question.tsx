@@ -35,12 +35,11 @@ function Question({ quiz, nextQuestion }: Quiz) {//prima objekt tipa quiz[0] koj
     }
 
     function checkAnswer(e: any) {
+
         if (parseInt(e.target.value) === 0) {
             e.target.className = buttonStyleWrong;
-
         } else {
             e.target.className = buttonStyleCorrect;
-
         }
 
         nextQuestion(parseInt(e.target.value));

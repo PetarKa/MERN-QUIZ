@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import * as networkAPI from "../../network/apis";
 
 interface IScore {
@@ -7,8 +6,6 @@ interface IScore {
 }
 
 function EndOfQuiz({ score, category }: IScore) {
-
-    let navigate = useNavigate();
 
     (async function () {
         try {

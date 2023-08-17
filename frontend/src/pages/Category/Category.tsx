@@ -12,18 +12,19 @@ function Category() {
 
     useEffect(() => {
         async function fetchCategories() {
-            let response = await fetch("https://the-trivia-api.com/api/categories")
-            if (response.status === 200) {
-                let data = await response.json();
+            try {
+                let response = await fetch("https://the-trivia-api.com/api/categories")
 
+                let data = await response.json();
+                console.log(data)
                 let values = SortAndCleanArray(Object.values(data))
                 let keys = Object.keys(data);
                 let category: ICategories = {}
                 keys.forEach((key, i) => category[key] = values[i])
 
                 setCategories(category)
-            } else {
-                alert("Can't get categories\nError:" + response.status)
+            } catch (error) {
+                console.log(error)
             }
         }
 

@@ -1,16 +1,15 @@
-import { useEffect, useState, useRef, CSSProperties } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import "./css/progressBar.css"
 
 interface ICountdown {
-    endOfCountDownEffect: (point: number) => void
+    nextQuestion: (point: number) => void
     resetCountDown: boolean,
     useresetCountDown: (value: boolean) => void;
 }
 
 
-function Countdown({ endOfCountDownEffect, resetCountDown, useresetCountDown }: ICountdown) {
+function Countdown({ nextQuestion, resetCountDown, useresetCountDown }: ICountdown) {
     const TIME: number = 10;
-    const styleWithh: any = { width: "100%" }
     const [timerClock, setTimerClock] = useState<number>(TIME)
     const progressBar = useRef<HTMLDivElement>(null);
 
@@ -30,20 +29,20 @@ function Countdown({ endOfCountDownEffect, resetCountDown, useresetCountDown }: 
 
     useEffect(() => {
 
-        if (resetCountDown == true) {//Reset na odabran odgovor
+        if (resetCountDown === true) {//Reset na odabran odgovor
             setTimeout(() => {
                 setTimerClock(TIME);
-                useresetCountDown(false);//nakon sta provjerimo da je korisnik kliknuo botun ponocu varijable resetCountDonw vracamo je na pocetnu vrijednost
+                useresetCountDown(false);//nakon sta provjerimo da je korisnik kliknuo botun, pomocu varijable resetCountDonw vracamo je na pocetnu vrijednost
                 ResetBar();
             }, 850);
 
         }
 
-        if (timerClock < 1 && resetCountDown == false) {//Zove funckioju u Quiz koja promijeni vrijednost resetCountDown u true
-            endOfCountDownEffect(0);
+        if (timerClock < 1 && resetCountDown === false) {//Zove funkciju u Quiz koja promijeni vrijednost resetCountDown u true
+            nextQuestion(0);
         }
 
-        if (resetCountDown == false) {//ako je resetcountdown true timer ce biti pauziran
+        if (resetCountDown === false) {//ako je resetcountdown true timer ce biti pauziran
             const timer = setTimeout(() => {
                 setTimerClock(timerClock - 1);
             }, 1000)

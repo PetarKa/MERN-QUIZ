@@ -36,6 +36,8 @@ function Quiz({ url, name }: IQuiz) {
 
     }
 
+    console.log(url, name)
+
     async function fetchQuiz() {//dobavlja kviz
         let response = await fetch(`https://the-trivia-api.com/api/questions?categories=${url}&limit=5&difficulty=easy`)
         if (response.status === 200) {
@@ -65,7 +67,7 @@ function Quiz({ url, name }: IQuiz) {
         if (showResult === false) {
             return (
                 <div className='flex flex-col justify-center mx-auto mt-20 w-1/2 h-full border-solid border-2 rounded-lg bg-sky-500'>
-                    <Countdown endOfCountDownEffect={nextQuestion} resetCountDown={resetCountdown} useresetCountDown={setresetCountdown} />
+                    <Countdown nextQuestion={nextQuestion} resetCountDown={resetCountdown} useresetCountDown={setresetCountdown} />
                     <Question quiz={Quiz[questionIndex]} nextQuestion={nextQuestion} />
                 </div>
             )

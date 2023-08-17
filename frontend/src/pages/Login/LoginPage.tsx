@@ -6,11 +6,10 @@ import SignupForm from './SignupForm';
 
 
 interface ILogin {
-    loggedInUser: User | null,
     setLoggedInUser: (value: User | null) => void;
 }
 
-function LoginPage({ loggedInUser, setLoggedInUser }: ILogin) {
+function LoginPage({ setLoggedInUser }: ILogin) {
     const [isLogin, setIsLogin] = useState(true);
 
     return (

@@ -44,7 +44,6 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
             throw createHttpError(409, "User with this email already exists. Please log in instead");
         }
 
-
         const passwordHashed = await bcrypt.hash(passwordRaw, 10)
 
         const newUser = await UserModel.create({
@@ -52,10 +51,9 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
             email: email,
             password: passwordHashed
         })
-
         req.session.userId = newUser._id;
+
         next();
-        //res.status(201).json(newUser);
     } catch (error) {
         next(error);
     }

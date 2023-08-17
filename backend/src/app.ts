@@ -17,7 +17,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 15 * 60 * 1000,//15 minuti
+        maxAge: 30 * 60 * 1000,//30 minuti
     },
     rolling: true,
     store: MongoStore.create({
@@ -33,10 +33,11 @@ app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     let errorMessage = "An unknown error occured";
     let statusCode = 500;
-    console.log("Error middleware")
+    console.log(error)
     if (isHttpError(error)) {
         statusCode = error.status;
         errorMessage = error.message;
