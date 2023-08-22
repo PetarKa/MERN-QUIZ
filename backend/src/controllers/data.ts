@@ -1,15 +1,14 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import { UserDataModel, CategoryModel } from "../models/data"
-import { assertIsDefined } from "../util/assertIsDefined";
-
-
 
 export const createUserData: RequestHandler<unknown, unknown, unknown, unknown> = async (req, res, next) => {
 
     const authenticatedUserId = req.session.userId;
 
     try {
+
+
         const newUserData = await UserDataModel.create({
             userId: authenticatedUserId,
             gamesPlayed: 0,
@@ -54,6 +53,8 @@ export const getData: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
 
     try {
+
+
         const usersData = await UserDataModel.find().populate('userId', 'username');
         const userData = await UserDataModel.findOne({ userId: authenticatedUserId }).lean();
         const globalData = await CategoryModel.find().lean().select('-_id -__v');
@@ -82,7 +83,7 @@ export const updateData: RequestHandler<unknown, unknown, UpdateBody, unknown> =
 
     try {
 
-        assertIsDefined(authenticatedUserId);
+
 
 
         await CategoryModel.findOneAndUpdate({}, { $inc: { [updatedField]: 1 } }).exec()//updatea global_Data

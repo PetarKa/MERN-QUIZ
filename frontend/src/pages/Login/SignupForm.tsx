@@ -31,7 +31,7 @@ function SignupForm({ setIsLogin }: ISignupForm) {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col basis-1/2 self-center justify-start mt-40">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col basis-1/2 self-center justify-start mt-40 w-80">
             <div className='text-orange-700'>{errorText}</div>
             <label>Username</label>
             <input {...register('username', { required: true })} className='border-2' />
